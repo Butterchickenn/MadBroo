@@ -1,0 +1,105 @@
+package com.example.dppicker;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btn1 , btn2, btn;
+    EditText t1 , t2;
+    DatePicker dp;
+    TimePicker tp;
+
+    AlertDialog.Builder builder;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        addActionListener();
+
+
+        builder.setMessage("Do you want to close the application : ")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+    }
+
+    protected void addActionListener(){
+        btn1 = (Button) findViewById(R.id.btn1);
+        btn2 = (Button) findViewById(R.id.btn2);
+        dp = (DatePicker) findViewById(R.id.dp1);
+        tp = (TimePicker) findViewById(R.id.tp1);
+        t1 = (EditText) findViewById(R.id.t1);
+        t2 = (EditText) findViewById(R.id.t2);
+        btn = (Button)findViewById(R.id.btn);
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dp.setVisibility(View.VISIBLE);
+                tp.setVisibility(View.INVISIBLE);
+                t2.setVisibility(View.INVISIBLE);
+                btn2.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dp.setVisibility(View.INVISIBLE);
+                tp.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                dp.setVisibility(View.INVISIBLE);
+                tp.setVisibility(View.INVISIBLE);
+                t2.setVisibility(View.VISIBLE);
+                btn2.setVisibility(View.VISIBLE);
+                StringBuffer str = new StringBuffer();
+                StringBuffer str1 = new StringBuffer();
+                str.append(dp.getYear() + "-"+ dp.getMonth() + "-" + dp.getDayOfMonth());
+                t1.setText(str);
+                str1.append(tp.getHour() + ":" + tp.getMinute() );
+                t2.setText(str1);
+
+                Toast.makeText(MainActivity.this,t1+" // "+t2, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+    }
+
+
+
+}
